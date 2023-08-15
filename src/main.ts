@@ -18,6 +18,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('Cloud Storage')
     .setVersion('1.0')
+    .addBearerAuth()
     .setDescription('The cloud storage based on NestJs')
     .build();
   const document = SwaggerModule.createDocument(app, config);

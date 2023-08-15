@@ -27,13 +27,13 @@ export class AuthController {
       httpOnly: true,
     });
 
-    return {
+    return res.status(200).json({
       accessToken: data.accessToken,
       user: {
         email: data.email,
         fullName: data.fullName,
       },
-    };
+    });
   }
 
   @Post('/register')
@@ -46,13 +46,13 @@ export class AuthController {
       domain: process.env.CLIENT_URL,
     });
 
-    return {
+    return res.status(200).json({
       accessToken: data.accessToken,
       user: {
         email: data.email,
         fullName: data.fullName,
       },
-    };
+    });
   }
 
   @Get('/refreshToken')
@@ -68,6 +68,8 @@ export class AuthController {
       domain: process.env.CLIENT_URL,
     });
 
-    return accessToken;
+    return res.status(200).json({
+      accessToken: accessToken,
+    });
   }
 }
