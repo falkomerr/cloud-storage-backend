@@ -11,7 +11,6 @@ import { AuthService } from './auth.service';
 import { ApiBody } from '@nestjs/swagger';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { LocalAuthGuard } from './guards/local.guard';
-import * as process from 'process';
 
 @Controller('auth')
 export class AuthController {
@@ -31,7 +30,6 @@ export class AuthController {
       accessToken: data.accessToken,
       user: {
         email: data.email,
-        fullName: data.fullName,
       },
     });
   }
@@ -43,20 +41,17 @@ export class AuthController {
 
     res.cookie('refreshToken', data.refreshToken, {
       httpOnly: true,
-      domain: process.env.CLIENT_URL,
     });
 
     return res.status(200).json({
       accessToken: data.accessToken,
       user: {
         email: data.email,
-        fullName: data.fullName,
       },
     });
   }
 
   @Get('/refreshToken')
-  @ApiBody({ type: CreateUserDto })
   async refreshToken(@Request() req, @Response() res) {
     const refresh: string = req.cookies['refreshToken'];
 
@@ -65,11 +60,20 @@ export class AuthController {
 
     res.cookie('refreshToken', newRefresh, {
       httpOnly: true,
-      domain: process.env.CLIENT_URL,
     });
 
     return res.status(200).json({
       accessToken: accessToken,
     });
+  }
+
+  @Get('/logout')
+  async logOut(@Response() res, @Request() req) {
+    if (req.cookies['refreshToken']) {
+      res.clearCookie('refreshToken');
+      res.status(200).send('Logout');
+    } else {
+      res.status(401).send('Unathorized');
+    }
   }
 }

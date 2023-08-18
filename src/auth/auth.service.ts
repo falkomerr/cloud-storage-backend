@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { verify } from 'argon2';
 import { CreateUserDto } from '../users/dto/create-user.dto';
@@ -65,7 +61,7 @@ export class AuthService {
     }
 
     if (!user) {
-      throw new BadRequestException('User does not exist');
+      throw new UnauthorizedException('User does not exist');
     }
   }
 
@@ -78,7 +74,6 @@ export class AuthService {
     return {
       accessToken: access,
       refreshToken: refresh,
-      fullName: user.fullName,
       email: user.email,
     };
   }
@@ -92,7 +87,6 @@ export class AuthService {
     return {
       accessToken: accessToken,
       refreshToken: refresh,
-      fullName: user.fullName,
       email: user.email,
     };
   }

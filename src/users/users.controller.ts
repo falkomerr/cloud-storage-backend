@@ -16,7 +16,6 @@ export class UsersController {
     const user = await this.usersService.findById(id);
     return {
       email: user.email,
-      fullName: user.fullName,
       id: user.id,
     };
   }

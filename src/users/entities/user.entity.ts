@@ -12,9 +12,6 @@ export class UserEntity {
   @Column()
   password: string;
 
-  @Column()
-  fullName: string;
-
   @OneToMany(() => FileEntity, (file) => file.user)
   files: FileEntity[];
 }

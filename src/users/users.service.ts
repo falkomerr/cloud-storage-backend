@@ -33,11 +33,9 @@ export class UsersService {
     const user = await this.repository.save({
       email: dto.email,
       password: await hash(dto.password),
-      fullName: dto.fullName,
     });
     return {
       email: user.email,
-      fullName: user.fullName,
       id: user.id,
     };
   }
